@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VaultX — Premium Finance</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Fonts: Syne (display) + DM Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ===================== LANDING PAGE ===================== -->
+<div id="landing-page" class="landing">
+
+  <!-- Animated background orbs -->
+  <div class="landing-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="landing-nav">
+    <div class="landing-logo">
+      <span class="logo-icon">⬡</span>
+      <span>VaultX</span>
+    </div>
+    <div class="landing-nav-links">
+      <a href="#" class="nav-link">Features</a>
+      <a href="#" class="nav-link">Security</a>
+      <a href="#" class="nav-link">Pricing</a>
+      <button class="btn-outline" onclick="showLogin()">Sign In</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Now in Open Beta — Invite Only
+    </div>
+    <h1 class="hero-title">
+      Your Money.<br/>
+      <span class="gradient-text">Reimagined.</span>
+    </h1>
+    <p class="hero-subtitle">
+      One vault for every card, account, and transaction.<br/>
+      Built for people who take control of their finances.
+    </p>
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="showLogin()">
+        Get Started Free
+        <span class="btn-arrow">→</span>
+      </button>
+      <button class="btn-ghost">Watch Demo ▶</button>
+    </div>
+
+    <!-- Floating card preview -->
+    <div class="hero-card-preview">
+      <div class="preview-card preview-card-back">
+        <div class="card-chip-preview"></div>
+        <div class="card-lines">
+          <div class="card-line"></div>
+          <div class="card-line short"></div>
+        </div>
+      </div>
+      <div class="preview-card preview-card-front">
+        <div class="card-logo-preview">⬡ VaultX</div>
+        <div class="card-number-preview">•••• •••• •••• 4291</div>
+        <div class="card-meta-preview">
+          <span>ALEX MORGAN</span>
+          <span>12/28</span>
+        </div>
+        <div class="card-network-preview">VISA</div>
+      </div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num">2.4M+</span>
+        <span class="stat-label">Transactions tracked</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-num">98%</span>
+        <span class="stat-label">Uptime SLA</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-num">256-bit</span>
+        <span class="stat-label">AES Encryption</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features strip -->
+  <section class="features-strip">
+    <div class="feature-chip">💳 Card Manager</div>
+    <div class="feature-chip">🏦 Bank Accounts</div>
+    <div class="feature-chip">📊 Smart Insights</div>
+    <div class="feature-chip">🔒 Bank-grade Security</div>
+    <div class="feature-chip">⚡ Instant Sync</div>
+    <div class="feature-chip">🌐 Multi-currency</div>
+  </section>
+</div>
+
+<!-- ===================== LOGIN MODAL ===================== -->
+<div id="login-modal" class="modal-overlay hidden">
+  <div class="modal-glass login-modal">
+    <div class="modal-logo">
+      <span class="logo-icon">⬡</span> VaultX
+    </div>
+    <h2 class="modal-title">Welcome back</h2>
+    <p class="modal-sub">Enter your credentials to continue</p>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="login-email" class="form-input" placeholder="you@example.com" />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="login-password" class="form-input" placeholder="••••••••" />
+    </div>
+    <button class="btn-primary full-width" onclick="doLogin()">Sign In</button>
+    <p class="modal-footer-text">
+      No account? <a href="#" onclick="doLogin()" class="accent-link">Use demo access →</a>
+    </p>
+  </div>
+</div>
+
+<!-- ===================== MAIN APP ===================== -->
+<div id="app" class="app hidden">
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">VaultX</span>
+      </div>
+      <button class="sidebar-toggle" onclick="toggleSidebar()" title="Collapse">
+        <span class="toggle-icon">‹</span>
+      </button>
+    </div>
+
+    <div class="sidebar-user">
+      <div class="user-avatar">AM</div>
+      <div class="user-info">
+        <span class="user-name">Alex Morgan</span>
+        <span class="user-plan">Premium Plan</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item active" onclick="showSection('dashboard')" data-section="dashboard">
+        <span class="nav-icon">⊞</span>
+        <span class="nav-label">Dashboard</span>
+      </a>
+      <a class="nav-item" onclick="showSection('cards')" data-section="cards">
+        <span class="nav-icon">▣</span>
+        <span class="nav-label">Cards</span>
+      </a>
+      <a class="nav-item" onclick="showSection('accounts')" data-section="accounts">
+        <span class="nav-icon">🏦</span>
+        <span class="nav-label">Accounts</span>
+      </a>
+      <a class="nav-item" onclick="showSection('transactions')" data-section="transactions">
+        <span class="nav-icon">↕</span>
+        <span class="nav-label">Transactions</span>
+      </a>
+      <a class="nav-item" onclick="showSection('insights')" data-section="insights">
+        <span class="nav-icon">◈</span>
+        <span class="nav-label">Insights</span>
+      </a>
+      <a class="nav-item" onclick="showSection('budget')" data-section="budget">
+        <span class="nav-icon">🎯</span>
+        <span class="nav-label">Budget</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a class="nav-item" onclick="showSection('settings')" data-section="settings">
+        <span class="nav-icon">⚙</span>
+        <span class="nav-label">Settings</span>
+      </a>
+      <a class="nav-item" onclick="doLogout()">
+        <span class="nav-icon">⏻</span>
+        <span class="nav-label">Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main id="main-content" class="main-content">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+        <div id="page-title" class="page-title">Dashboard</div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-search">
+          <span>🔍</span>
+          <input type="text" placeholder="Search transactions..." id="global-search" oninput="globalSearch(this.value)" />
+        </div>
+        <div class="topbar-notif">
+          <span class="notif-dot"></span>
+          🔔
+        </div>
+        <div class="user-avatar small">AM</div>
+      </div>
+    </header>
+
+    <!-- ===== DASHBOARD SECTION ===== -->
+    <section id="section-dashboard" class="content-section">
+
+      <div class="section-heading">
+        <div>
+          <h2>Good morning, Alex ☀️</h2>
+          <p class="section-sub">Here's your financial overview</p>
+        </div>
+        <div class="date-badge" id="today-date"></div>
+      </div>
+
+      <!-- Balance Cards Row -->
+      <div class="balance-cards">
+        <div class="balance-card primary skeleton-target">
+          <div class="balance-card-label">Total Balance</div>
+          <div class="balance-card-amount" id="total-balance">₹0.00</div>
+          <div class="balance-card-sub">Across all accounts</div>
+          <div class="balance-card-trend up" id="balance-trend">▲ 4.2% this month</div>
+          <div class="balance-card-bg-icon">◎</div>
+        </div>
+        <div class="balance-card green skeleton-target">
+          <div class="balance-card-label">Total Income</div>
+          <div class="balance-card-amount" id="total-income">₹0.00</div>
+          <div class="balance-card-sub">This month</div>
+          <div class="balance-card-trend up">▲ 12.1%</div>
+          <div class="balance-card-bg-icon">↑</div>
+        </div>
+        <div class="balance-card red skeleton-target">
+          <div class="balance-card-label">Total Expenses</div>
+          <div class="balance-card-amount" id="total-expense">₹0.00</div>
+          <div class="balance-card-sub">This month</div>
+          <div class="balance-card-trend down">▼ 2.8%</div>
+          <div class="balance-card-bg-icon">↓</div>
+        </div>
+        <div class="balance-card purple skeleton-target">
+          <div class="balance-card-label">Savings Rate</div>
+          <div class="balance-card-amount" id="savings-rate">0%</div>
+          <div class="balance-card-sub">Of total income</div>
+          <div class="balance-card-trend up">▲ 3.4%</div>
+          <div class="balance-card-bg-icon">◉</div>
+        </div>
+      </div>
+
+      <!-- Charts + Recent Transactions -->
+      <div class="dashboard-grid">
+
+        <!-- Chart -->
+        <div class="glass-card chart-card">
+          <div class="card-header">
+            <span class="card-title">Income vs Expenses</span>
+            <div class="chart-legend">
+              <span class="legend-dot green"></span> Income
+              <span class="legend-dot red"></span> Expenses
+            </div>
+          </div>
+          <canvas id="income-expense-chart" width="600" height="200"></canvas>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="glass-card transactions-card">
+          <div class="card-header">
+            <span class="card-title">Recent Transactions</span>
+            <a onclick="showSection('transactions')" class="view-all-link">View all →</a>
+          </div>
+          <div id="recent-txns-list" class="recent-txn-list"></div>
+        </div>
+      </div>
+
+      <!-- Accounts + Cards Quick View -->
+      <div class="dashboard-grid-2">
+        <div class="glass-card">
+          <div class="card-header">
+            <span class="card-title">My Accounts</span>
+            <a onclick="showSection('accounts')" class="view-all-link">Manage →</a>
+          </div>
+          <div id="dash-accounts-list" class="dash-list"></div>
+        </div>
+        <div class="glass-card">
+          <div class="card-header">
+            <span class="card-title">My Cards</span>
+            <a onclick="showSection('cards')" class="view-all-link">Manage →</a>
+          </div>
+          <div id="dash-cards-list" class="dash-list"></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ===== CARDS SECTION ===== -->
+    <section id="section-cards" class="content-section hidden">
+      <div class="section-heading">
+        <div>
+          <h2>Card Manager</h2>
+          <p class="section-sub">Your debit & credit cards</p>
+        </div>
+        <button class="btn-primary" onclick="openCardModal()">+ Add Card</button>
+      </div>
+
+      <div id="cards-grid" class="cards-grid"></div>
+
+      <div id="no-cards-empty" class="empty-state hidden">
+        <div class="empty-icon">💳</div>
+        <h3>No cards yet</h3>
+        <p>Add your first debit or credit card to get started.</p>
+        <button class="btn-primary" onclick="openCardModal()">+ Add Card</button>
+      </div>
+    </section>
+
+    <!-- ===== ACCOUNTS SECTION ===== -->
+    <section id="section-accounts" class="content-section hidden">
+      <div class="section-heading">
+        <div>
+          <h2>Bank Accounts</h2>
+          <p class="section-sub">Manage your linked accounts</p>
+        </div>
+        <button class="btn-primary" onclick="openAccountModal()">+ Add Account</button>
+      </div>
+
+      <div id="accounts-grid" class="accounts-grid"></div>
+
+      <div id="no-accounts-empty" class="empty-state hidden">
+        <div class="empty-icon">🏦</div>
+        <h3>No accounts added</h3>
+        <p>Link a bank account to track your balances.</p>
+        <button class="btn-primary" onclick="openAccountModal()">+ Add Account</button>
+      </div>
+    </section>
+
+    <!-- ===== TRANSACTIONS SECTION ===== -->
+    <section id="section-transactions" class="content-section hidden">
+      <div class="section-heading">
+        <div>
+          <h2>Transactions</h2>
+          <p class="section-sub">All your income & expenses</p>
+        </div>
+        <button class="btn-primary" onclick="openTxnModal()">+ Add Transaction</button>
+      </div>
+
+      <!-- Filters -->
+      <div class="txn-filters glass-card">
+        <input type="text" id="txn-search" placeholder="🔍  Search by name..." class="filter-input" oninput="renderTransactions()" />
+        <select id="txn-category-filter" class="filter-select" onchange="renderTransactions()">
+          <option value="">All Categories</option>
+          <option>Food & Dining</option>
+          <option>Travel</option>
+          <option>Bills & Utilities</option>
+          <option>Shopping</option>
+          <option>Entertainment</option>
+          <option>Health</option>
+          <option>Education</option>
+          <option>Salary</option>
+          <option>Investment</option>
+          <option>Other</option>
+        </select>
+        <select id="txn-type-filter" class="filter-select" onchange="renderTransactions()">
+          <option value="">All Types</option>
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+        </select>
+        <select id="txn-sort" class="filter-select" onchange="renderTransactions()">
+          <option value="date-desc">Newest First</option>
+          <option value="date-asc">Oldest First</option>
+          <option value="amount-desc">Highest Amount</option>
+          <option value="amount-asc">Lowest Amount</option>
+        </select>
+      </div>
+
+      <div id="txn-list" class="txn-list"></div>
+
+      <div id="no-txns-empty" class="empty-state hidden">
+        <div class="empty-icon">📋</div>
+        <h3>No transactions yet</h3>
+        <p>Record your first income or expense.</p>
+        <button class="btn-primary" onclick="openTxnModal()">+ Add Transaction</button>
+      </div>
+    </section>
+
+    <!-- ===== INSIGHTS SECTION ===== -->
+    <section id="section-insights" class="content-section hidden">
+      <div class="section-heading">
+        <div>
+          <h2>Insights</h2>
+          <p class="section-sub">Monthly spending breakdown</p>
+        </div>
+      </div>
+
+      <div class="insights-grid">
+        <div class="glass-card">
+          <div class="card-header">
+            <span class="card-title">Spending by Category</span>
+          </div>
+          <canvas id="category-chart" width="400" height="300"></canvas>
+        </div>
+        <div class="glass-card">
+          <div class="card-header">
+            <span class="card-title">Category Breakdown</span>
+          </div>
+          <div id="category-breakdown" class="category-breakdown"></div>
+        </div>
+      </div>
+
+      <div class="glass-card mt-20">
+        <div class="card-header">
+          <span class="card-title">Monthly Trend (Last 6 Months)</span>
+        </div>
+        <canvas id="monthly-trend-chart" width="800" height="200"></canvas>
+      </div>
+    </section>
+
+    <!-- ===== BUDGET SECTION ===== -->
+    <section id="section-budget" class="content-section hidden">
+      <div class="section-heading">
+        <div>
+          <h2>Budget Planner 🎯</h2>
+          <p class="section-sub">Set monthly spending limits per category</p>
+        </div>
+        <button class="btn-primary" onclick="openBudgetModal()">+ Set Budget</button>
+      </div>
+
+      <!-- Budget overview bar -->
+      <div class="glass-card budget-overview-card">
+        <div class="card-header">
+          <span class="card-title">Overall Monthly Budget</span>
+          <span id="budget-overall-pct" class="budget-pct-badge">0% used</span>
+        </div>
+        <div class="budget-master-bar-wrap">
+          <div id="budget-master-bar" class="budget-master-bar"></div>
+        </div>
+        <div class="budget-overview-row">
+          <div class="budget-overview-stat">
+            <span class="bos-label">Total Budget</span>
+            <span class="bos-val" id="budget-total-set">₹0</span>
+          </div>
+          <div class="budget-overview-stat">
+            <span class="bos-label">Spent So Far</span>
+            <span class="bos-val red" id="budget-total-spent">₹0</span>
+          </div>
+          <div class="budget-overview-stat">
+            <span class="bos-label">Remaining</span>
+            <span class="bos-val green" id="budget-remaining">₹0</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="budget-list" class="budget-list"></div>
+
+      <div id="no-budget-empty" class="empty-state hidden">
+        <div class="empty-icon">🎯</div>
+        <h3>No budgets set</h3>
+        <p>Create category budgets to track your spending limits.</p>
+        <button class="btn-primary" onclick="openBudgetModal()">+ Set Budget</button>
+      </div>
+    </section>
+
+    <!-- ===== SETTINGS SECTION ===== -->
+    <section id="section-settings" class="content-section hidden">
+      <div class="section-heading">
+        <div>
+          <h2>Settings ⚙</h2>
+          <p class="section-sub">Manage your profile and preferences</p>
+        </div>
+      </div>
+
+      <div class="settings-grid">
+
+        <!-- Profile Card -->
+        <div class="glass-card">
+          <div class="card-header"><span class="card-title">Profile</span></div>
+          <div class="profile-avatar-row">
+            <div class="profile-avatar" id="profile-avatar-display">AM</div>
+            <div>
+              <div style="font-weight:700;font-size:1.05rem;" id="profile-name-display">Alex Morgan</div>
+              <div style="color:var(--text-muted);font-size:.85rem;" id="profile-email-display">alex@vaultx.in</div>
+              <span class="account-type-pill" style="margin-top:6px;display:inline-block;">Premium Plan</span>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:20px;">
+            <label>Display Name</label>
+            <input type="text" id="settings-name" class="form-input" placeholder="Your name" value="Alex Morgan" />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="settings-email" class="form-input" placeholder="you@example.com" value="alex@vaultx.in" />
+          </div>
+          <button class="btn-primary" onclick="saveProfile()" style="margin-top:4px;">Save Profile</button>
+        </div>
+
+        <!-- Preferences Card -->
+        <div class="glass-card">
+          <div class="card-header"><span class="card-title">Preferences</span></div>
+
+          <div class="settings-row">
+            <div class="settings-row-info">
+              <div class="settings-row-label">Sound Effects</div>
+              <div class="settings-row-sub">Play click sound on actions</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="pref-sound" onchange="savePref('sound', this.checked)" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row-info">
+              <div class="settings-row-label">Show Balances</div>
+              <div class="settings-row-sub">Show/hide account balances on dashboard</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="pref-balances" checked onchange="savePref('balances', this.checked)" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row-info">
+              <div class="settings-row-label">Compact Mode</div>
+              <div class="settings-row-sub">Tighter spacing for more content</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="pref-compact" onchange="savePref('compact', this.checked)" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Data Management Card -->
+        <div class="glass-card">
+          <div class="card-header"><span class="card-title">Data Management</span></div>
+
+          <div class="data-action-row">
+            <div>
+              <div class="settings-row-label">Export Transactions</div>
+              <div class="settings-row-sub">Download all transactions as CSV</div>
+            </div>
+            <button class="btn-ghost" onclick="exportCSV()">⬇ Export CSV</button>
+          </div>
+
+          <div class="data-action-row">
+            <div>
+              <div class="settings-row-label">Backup Data</div>
+              <div class="settings-row-sub">Save a full JSON backup of your vault</div>
+            </div>
+            <button class="btn-ghost" onclick="backupData()">💾 Backup</button>
+          </div>
+
+          <div class="data-action-row danger-row">
+            <div>
+              <div class="settings-row-label" style="color:var(--neon-red)">Reset All Data</div>
+              <div class="settings-row-sub">Permanently delete everything</div>
+            </div>
+            <button class="btn-danger" onclick="confirmResetAll()">🗑 Reset</button>
+          </div>
+        </div>
+
+        <!-- Keyboard Shortcuts Card -->
+        <div class="glass-card">
+          <div class="card-header"><span class="card-title">Keyboard Shortcuts</span></div>
+          <div class="shortcuts-list">
+            <div class="shortcut-row"><kbd>T</kbd><span>Add Transaction</span></div>
+            <div class="shortcut-row"><kbd>C</kbd><span>Add Card</span></div>
+            <div class="shortcut-row"><kbd>A</kbd><span>Add Account</span></div>
+            <div class="shortcut-row"><kbd>1</kbd><span>Dashboard</span></div>
+            <div class="shortcut-row"><kbd>2</kbd><span>Cards</span></div>
+            <div class="shortcut-row"><kbd>3</kbd><span>Accounts</span></div>
+            <div class="shortcut-row"><kbd>4</kbd><span>Transactions</span></div>
+            <div class="shortcut-row"><kbd>5</kbd><span>Insights</span></div>
+            <div class="shortcut-row"><kbd>6</kbd><span>Budget</span></div>
+            <div class="shortcut-row"><kbd>Esc</kbd><span>Close modal</span></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main><!-- end main-content -->
+
+  <!-- FAB -->
+  <button class="fab" onclick="openFABMenu()" id="fab-btn" title="Quick Add">+</button>
+  <div id="fab-menu" class="fab-menu hidden">
+    <button class="fab-item" onclick="openTxnModal(); closeFABMenu()">
+      <span>↕</span> Transaction
+    </button>
+    <button class="fab-item" onclick="openCardModal(); closeFABMenu()">
+      <span>▣</span> Card
+    </button>
+    <button class="fab-item" onclick="openAccountModal(); closeFABMenu()">
+      <span>🏦</span> Account
+    </button>
+  </div>
+
+</div><!-- end #app -->
+
+<!-- ===================== MODALS ===================== -->
+
+<!-- Add/Edit Budget Modal -->
+<div id="budget-modal" class="modal-overlay hidden">
+  <div class="modal-glass">
+    <div class="modal-header">
+      <h3 id="budget-modal-title">Set Category Budget</h3>
+      <button class="modal-close" onclick="closeModal('budget-modal')">✕</button>
+    </div>
+    <input type="hidden" id="budget-edit-id" />
+    <div class="form-group">
+      <label>Category</label>
+      <select id="budget-category" class="form-input">
+        <option>Food & Dining</option>
+        <option>Travel</option>
+        <option>Bills & Utilities</option>
+        <option>Shopping</option>
+        <option>Entertainment</option>
+        <option>Health</option>
+        <option>Education</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Monthly Limit (₹)</label>
+      <input type="number" id="budget-amount" class="form-input" placeholder="e.g. 5000" min="1" />
+    </div>
+    <div class="form-group">
+      <label>Alert at (%)</label>
+      <input type="number" id="budget-alert-pct" class="form-input" placeholder="80" min="1" max="100" value="80" />
+      <span style="font-size:.75rem;color:var(--text-muted);margin-top:4px;">Get alerted when spending reaches this % of limit</span>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal('budget-modal')">Cancel</button>
+      <button class="btn-primary" onclick="saveBudget()">Save Budget</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit Card Modal -->
+<div id="card-modal" class="modal-overlay hidden">
+  <div class="modal-glass">
+    <div class="modal-header">
+      <h3 id="card-modal-title">Add New Card</h3>
+      <button class="modal-close" onclick="closeModal('card-modal')">✕</button>
+    </div>
+
+    <!-- Live card preview -->
+    <div class="card-preview-wrapper">
+      <div class="live-card" id="live-card-preview">
+        <div class="card-shine"></div>
+        <div class="card-logo-row">
+          <span class="card-logo-brand">⬡ VaultX</span>
+          <span id="prev-type-badge" class="card-type-badge">DEBIT</span>
+        </div>
+        <div class="card-chip-icon">▣</div>
+        <div class="card-number-display" id="prev-number">•••• •••• •••• ••••</div>
+        <div class="card-bottom-row">
+          <div class="card-holder-col">
+            <span class="card-small-label">CARD HOLDER</span>
+            <span id="prev-holder" class="card-holder-name">YOUR NAME</span>
+          </div>
+          <div class="card-expiry-col">
+            <span class="card-small-label">EXPIRES</span>
+            <span id="prev-expiry" class="card-expiry-val">MM/YY</span>
+          </div>
+          <div class="card-network-col">
+            <span id="prev-network" class="card-network-logo">VISA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <input type="hidden" id="card-edit-id" />
+    <div class="form-row">
+      <div class="form-group">
+        <label>Card Type</label>
+        <select id="card-type" class="form-input" onchange="updateCardPreview()">
+          <option value="debit">Debit</option>
+          <option value="credit">Credit</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Network</label>
+        <select id="card-network" class="form-input" onchange="updateCardPreview()">
+          <option value="VISA">Visa</option>
+          <option value="MASTERCARD">Mastercard</option>
+          <option value="AMEX">Amex</option>
+          <option value="RUPAY">RuPay</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Card Number</label>
+      <input type="text" id="card-number" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCardNumber(this); updateCardPreview()" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Card Holder Name</label>
+        <input type="text" id="card-holder" class="form-input" placeholder="Alex Morgan" oninput="updateCardPreview()" />
+      </div>
+      <div class="form-group">
+        <label>Expiry (MM/YY)</label>
+        <input type="text" id="card-expiry" class="form-input" placeholder="12/28" maxlength="5" oninput="updateCardPreview()" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>CVV</label>
+        <input type="password" id="card-cvv" class="form-input" placeholder="•••" maxlength="4" />
+      </div>
+      <div class="form-group">
+        <label>Card Color Theme</label>
+        <select id="card-color" class="form-input" onchange="updateCardPreview()">
+          <option value="purple">Purple Nova</option>
+          <option value="blue">Ocean Blue</option>
+          <option value="green">Emerald</option>
+          <option value="red">Ruby Red</option>
+          <option value="gold">Gold</option>
+          <option value="dark">Obsidian</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Linked Account (optional)</label>
+      <select id="card-linked-account" class="form-input">
+        <option value="">— None —</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal('card-modal')">Cancel</button>
+      <button class="btn-primary" onclick="saveCard()">Save Card</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit Account Modal -->
+<div id="account-modal" class="modal-overlay hidden">
+  <div class="modal-glass">
+    <div class="modal-header">
+      <h3 id="account-modal-title">Add Bank Account</h3>
+      <button class="modal-close" onclick="closeModal('account-modal')">✕</button>
+    </div>
+    <input type="hidden" id="account-edit-id" />
+    <div class="form-group">
+      <label>Bank Name</label>
+      <input type="text" id="account-bank" class="form-input" placeholder="e.g. Chase, HDFC, Revolut" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Account Number (last 4)</label>
+        <input type="text" id="account-number" class="form-input" placeholder="4521" maxlength="4" />
+      </div>
+      <div class="form-group">
+        <label>Account Type</label>
+        <select id="account-type" class="form-input">
+          <option value="savings">Savings</option>
+          <option value="checking">Checking / Current</option>
+          <option value="salary">Salary</option>
+          <option value="joint">Joint</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Current Balance (₹)</label>
+      <input type="number" id="account-balance" class="form-input" placeholder="0.00" />
+    </div>
+    <div class="form-group">
+      <label>Account Color</label>
+      <select id="account-color" class="form-input">
+        <option value="purple">Purple</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="red">Red</option>
+        <option value="gold">Gold</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal('account-modal')">Cancel</button>
+      <button class="btn-primary" onclick="saveAccount()">Save Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit Transaction Modal -->
+<div id="txn-modal" class="modal-overlay hidden">
+  <div class="modal-glass">
+    <div class="modal-header">
+      <h3 id="txn-modal-title">Add Transaction</h3>
+      <button class="modal-close" onclick="closeModal('txn-modal')">✕</button>
+    </div>
+    <input type="hidden" id="txn-edit-id" />
+
+    <!-- Type Toggle -->
+    <div class="type-toggle">
+      <button id="toggle-income" class="type-btn active-income" onclick="setTxnType('income')">Income ↑</button>
+      <button id="toggle-expense" class="type-btn" onclick="setTxnType('expense')">Expense ↓</button>
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <input type="text" id="txn-name" class="form-input" placeholder="e.g. Netflix, Salary, Groceries" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Amount (₹)</label>
+        <input type="number" id="txn-amount" class="form-input" placeholder="0.00" min="0" />
+      </div>
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" id="txn-date" class="form-input" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Category</label>
+        <select id="txn-category" class="form-input">
+          <option>Food & Dining</option>
+          <option>Travel</option>
+          <option>Bills & Utilities</option>
+          <option>Shopping</option>
+          <option>Entertainment</option>
+          <option>Health</option>
+          <option>Education</option>
+          <option>Salary</option>
+          <option>Investment</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Account</label>
+        <select id="txn-account" class="form-input">
+          <option value="">— None —</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Note (optional)</label>
+      <input type="text" id="txn-note" class="form-input" placeholder="Any extra details..." />
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal('txn-modal')">Cancel</button>
+      <button class="btn-primary" onclick="saveTransaction()">Save Transaction</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirm Modal -->
+<div id="confirm-modal" class="modal-overlay hidden">
+  <div class="modal-glass small-modal">
+    <div class="confirm-icon">⚠️</div>
+    <h3>Are you sure?</h3>
+    <p id="confirm-text">This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal('confirm-modal')">Cancel</button>
+      <button class="btn-danger" id="confirm-action-btn">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div id="toast-container" class="toast-container"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
