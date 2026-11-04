@@ -4,7 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VaultX — Premium Finance</title>
-  <link rel="stylesheet" href="style.css" />
+  <!-- Core & Component Styles -->
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/landing.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+
+  <!-- Feature Module Styles -->
+  <link rel="stylesheet" href="css/modules/dashboard.css" />
+  <link rel="stylesheet" href="css/modules/cards.css" />
+  <link rel="stylesheet" href="css/modules/accounts.css" />
+  <link rel="stylesheet" href="css/modules/transactions.css" />
+  <link rel="stylesheet" href="css/modules/insights.css" />
+  <link rel="stylesheet" href="css/modules/budget.css" />
+  <link rel="stylesheet" href="css/modules/settings.css" />
+  <link rel="stylesheet" href="css/modules/responsive.css" />
   <!-- Google Fonts: Syne (display) + DM Sans (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,10 +44,12 @@
       <span>VaultX</span>
     </div>
     <div class="landing-nav-links">
-      <a href="#" class="nav-link">Features</a>
-      <a href="#" class="nav-link">Security</a>
-      <a href="#" class="nav-link">Pricing</a>
-      <button class="btn-outline" onclick="showLogin()">Sign In</button>
+      <a href="#features-strip" class="nav-link">Features</a>
+      <a href="#security-section" class="nav-link">Security</a>
+      <a href="#pricing-section" class="nav-link">Pricing</a>
+      <button type="button" class="nav-auth-btn" id="nav-login-btn" onclick="openAuthModal('login')">Sign In</button>
+      <button type="button" class="btn-auth-primary" id="nav-register-btn" onclick="openAuthModal('register')">Register</button>
+      <button type="button" class="btn-outline" onclick="demoLogin()">Open Demo</button>
     </div>
   </nav>
 
@@ -41,7 +57,7 @@
   <section class="hero">
     <div class="hero-badge">
       <span class="badge-dot"></span>
-      Now in Open Beta — Invite Only
+      Now in Open Beta — Multi-User Ready
     </div>
     <h1 class="hero-title">
       Your Money.<br/>
@@ -52,11 +68,17 @@
       Built for people who take control of their finances.
     </p>
     <div class="hero-cta">
-      <button class="btn-primary" onclick="showLogin()">
+      <button class="btn-primary" onclick="demoLogin()">
         Get Started Free
         <span class="btn-arrow">→</span>
       </button>
-      <button class="btn-ghost">Watch Demo ▶</button>
+      <button class="btn-ghost" onclick="demoLogin()">Explore Demo ▶</button>
+    </div>
+    <div class="hero-auth-links">
+      <span>Already have an account?</span>
+      <a href="javascript:void(0)" onclick="openAuthModal('login')">Sign in to your Vault</a>
+      <span>or</span>
+      <a href="javascript:void(0)" onclick="openAuthModal('register')">Create an account</a>
     </div>
 
     <!-- Floating card preview -->
@@ -82,55 +104,44 @@
     <!-- Stats row -->
     <div class="hero-stats">
       <div class="stat-item">
-        <span class="stat-num">2.4M+</span>
-        <span class="stat-label">Transactions tracked</span>
+        <span class="stat-num">Manual</span>
+        <span class="stat-label">Transaction tracking</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
-        <span class="stat-num">98%</span>
-        <span class="stat-label">Uptime SLA</span>
+        <span class="stat-num">Local</span>
+        <span class="stat-label">Saved in this browser</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
-        <span class="stat-num">256-bit</span>
-        <span class="stat-label">AES Encryption</span>
+        <span class="stat-num">Demo</span>
+        <span class="stat-label">No bank connection</span>
       </div>
     </div>
   </section>
 
   <!-- Features strip -->
-  <section class="features-strip">
+  <section id="features-strip" class="features-strip">
     <div class="feature-chip">💳 Card Manager</div>
     <div class="feature-chip">🏦 Bank Accounts</div>
     <div class="feature-chip">📊 Smart Insights</div>
-    <div class="feature-chip">🔒 Bank-grade Security</div>
-    <div class="feature-chip">⚡ Instant Sync</div>
-    <div class="feature-chip">🌐 Multi-currency</div>
+    <div class="feature-chip">🎯 Monthly Budgets</div>
+    <div class="feature-chip">💾 Browser-based Demo</div>
+    <div class="feature-chip">📥 CSV Export</div>
   </section>
-</div>
 
-<!-- ===================== LOGIN MODAL ===================== -->
-<div id="login-modal" class="modal-overlay hidden">
-  <div class="modal-glass login-modal">
-    <div class="modal-logo">
-      <span class="logo-icon">⬡</span> VaultX
-    </div>
-    <h2 class="modal-title">Welcome back</h2>
-    <p class="modal-sub">Enter your credentials to continue</p>
+  <section id="security-section" class="landing-info">
+    <span class="landing-info-eyebrow">SECURITY</span>
+    <h2>Made for trying out the app</h2>
+    <p>This demo saves information in your browser on this device. It does not connect to a bank or provide secure card storage. Please use sample information only.</p>
+  </section>
 
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" id="login-email" class="form-input" placeholder="you@example.com" />
-    </div>
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" id="login-password" class="form-input" placeholder="••••••••" />
-    </div>
-    <button class="btn-primary full-width" onclick="doLogin()">Sign In</button>
-    <p class="modal-footer-text">
-      No account? <a href="#" onclick="doLogin()" class="accent-link">Use demo access →</a>
-    </p>
-  </div>
+  <section id="pricing-section" class="landing-info">
+    <span class="landing-info-eyebrow">PRICING</span>
+    <h2>Free demo preview</h2>
+    <p>Explore the current VaultX features at no cost. There are no paid plans or subscriptions in this project yet.</p>
+    <button class="btn-primary" onclick="demoLogin()">Try the Demo <span class="btn-arrow">→</span></button>
+  </section>
 </div>
 
 <!-- ===================== MAIN APP ===================== -->
@@ -201,19 +212,86 @@
     <!-- Top Bar -->
     <header class="topbar">
       <div class="topbar-left">
-        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+        <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Toggle navigation">☰</button>
         <div id="page-title" class="page-title">Dashboard</div>
       </div>
       <div class="topbar-right">
-        <div class="topbar-search">
-          <span>🔍</span>
-          <input type="text" placeholder="Search transactions..." id="global-search" oninput="globalSearch(this.value)" />
+        <!-- Global Search Control -->
+        <div class="topbar-search-wrapper" id="topbar-search-wrapper">
+          <button class="mobile-search-toggle" id="mobile-search-toggle" onclick="toggleMobileSearch(event)" aria-label="Search" title="Search">🔍</button>
+          <div class="topbar-search" id="topbar-search">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="Search transactions..." id="global-search" oninput="handleGlobalSearch(this.value)" onfocus="handleGlobalSearch(this.value)" autocomplete="off" />
+            <button type="button" class="search-clear-btn hidden" id="global-search-clear" onclick="clearGlobalSearch()" aria-label="Clear search" title="Clear search">✕</button>
+          </div>
+          <!-- Global Search Dropdown Preview -->
+          <div id="global-search-dropdown" class="search-dropdown hidden" role="listbox">
+            <div id="search-results-list" class="search-results-list"></div>
+          </div>
         </div>
-        <div class="topbar-notif">
-          <span class="notif-dot"></span>
-          🔔
+
+        <!-- Notification Bell Control -->
+        <div class="topbar-notif-wrapper" id="topbar-notif-wrapper">
+          <button class="topbar-notif topbar-notif-btn" id="topbar-notif-btn" onclick="toggleNotifications(event)" aria-label="Notifications" title="Notifications">
+            <span class="notif-icon">🔔</span>
+            <span class="notif-badge hidden" id="notif-badge"></span>
+          </button>
+          <!-- Notification Dropdown Panel -->
+          <div id="notif-dropdown" class="notif-dropdown hidden" role="region" aria-label="Notifications Panel">
+            <div class="notif-header">
+              <div class="notif-header-title">
+                <span>Notifications</span>
+                <span class="notif-count-pill" id="notif-count-pill">0</span>
+              </div>
+              <button type="button" class="notif-mark-read-btn" id="notif-mark-all-read" onclick="markAllNotificationsAsRead()">Mark all as read</button>
+            </div>
+            <div class="notif-list" id="notif-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
         </div>
-        <div class="user-avatar small">AM</div>
+
+        <!-- Profile Avatar Control -->
+        <div class="topbar-profile-wrapper" id="topbar-profile-wrapper">
+          <button class="user-avatar-btn" id="topbar-avatar-btn" onclick="toggleProfileDropdown(event)" aria-haspopup="true" aria-expanded="false" title="User Profile Menu">
+            <div class="user-avatar small" id="topbar-avatar-initials">AM</div>
+          </button>
+          <!-- User Profile Dropdown Menu -->
+          <div id="profile-dropdown" class="profile-dropdown hidden" role="menu">
+            <div class="profile-dropdown-user">
+              <div class="user-avatar" id="profile-dropdown-avatar">AM</div>
+              <div class="profile-dropdown-info">
+                <span class="profile-dropdown-name" id="profile-dropdown-name">Alex Morgan</span>
+                <span class="profile-dropdown-email" id="profile-dropdown-email">alex@vaultx.in</span>
+                <span class="profile-dropdown-plan">Premium Member ✦</span>
+              </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <div class="profile-dropdown-menu">
+              <a class="dropdown-item" onclick="openSectionFromMenu('settings')" role="menuitem">
+                <span class="item-icon">⚙️</span>
+                <span class="item-label">Settings & Profile</span>
+              </a>
+              <a class="dropdown-item" onclick="openSectionFromMenu('cards')" role="menuitem">
+                <span class="item-icon">💳</span>
+                <span class="item-label">Manage Cards</span>
+              </a>
+              <a class="dropdown-item" onclick="openSectionFromMenu('accounts')" role="menuitem">
+                <span class="item-icon">🏦</span>
+                <span class="item-label">Bank Accounts</span>
+              </a>
+              <a class="dropdown-item" onclick="openSectionFromMenu('budget')" role="menuitem">
+                <span class="item-icon">🎯</span>
+                <span class="item-label">Budget Planner</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item logout-item" onclick="handleLogoutFromMenu()" role="menuitem">
+                <span class="item-icon">⏻</span>
+                <span class="item-label">Log Out</span>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -225,7 +303,16 @@
           <h2>Good morning, Alex ☀️</h2>
           <p class="section-sub">Here's your financial overview</p>
         </div>
-        <div class="date-badge" id="today-date"></div>
+        <div class="date-filter-group">
+          <select id="dashboard-period-filter" class="filter-select" onchange="setDashboardPeriod(this.value)">
+            <option value="this-month" selected>This Month</option>
+            <option value="last-month">Last Month</option>
+            <option value="last-30">Last 30 Days</option>
+            <option value="this-year">This Year</option>
+            <option value="all">All Time</option>
+          </select>
+          <div class="date-badge" id="today-date"></div>
+        </div>
       </div>
 
       <!-- Balance Cards Row -->
@@ -234,28 +321,28 @@
           <div class="balance-card-label">Total Balance</div>
           <div class="balance-card-amount" id="total-balance">₹0.00</div>
           <div class="balance-card-sub">Across all accounts</div>
-          <div class="balance-card-trend up" id="balance-trend">▲ 4.2% this month</div>
+          <div class="balance-card-trend up" id="balance-trend">3 active accounts</div>
           <div class="balance-card-bg-icon">◎</div>
         </div>
         <div class="balance-card green skeleton-target">
           <div class="balance-card-label">Total Income</div>
           <div class="balance-card-amount" id="total-income">₹0.00</div>
-          <div class="balance-card-sub">This month</div>
-          <div class="balance-card-trend up">▲ 12.1%</div>
+          <div class="balance-card-sub" id="income-period-label">This month</div>
+          <div class="balance-card-trend up" id="income-trend">▲ Active</div>
           <div class="balance-card-bg-icon">↑</div>
         </div>
         <div class="balance-card red skeleton-target">
           <div class="balance-card-label">Total Expenses</div>
           <div class="balance-card-amount" id="total-expense">₹0.00</div>
-          <div class="balance-card-sub">This month</div>
-          <div class="balance-card-trend down">▼ 2.8%</div>
+          <div class="balance-card-sub" id="expense-period-label">This month</div>
+          <div class="balance-card-trend down" id="expense-trend">▼ Active</div>
           <div class="balance-card-bg-icon">↓</div>
         </div>
         <div class="balance-card purple skeleton-target">
-          <div class="balance-card-label">Savings Rate</div>
-          <div class="balance-card-amount" id="savings-rate">0%</div>
-          <div class="balance-card-sub">Of total income</div>
-          <div class="balance-card-trend up">▲ 3.4%</div>
+          <div class="balance-card-label" id="savings-card-label">Net Savings</div>
+          <div class="balance-card-amount" id="savings-amount">₹0.00</div>
+          <div class="balance-card-sub" id="savings-period-label"><span id="savings-rate">0%</span> of income saved</div>
+          <div class="balance-card-trend up" id="savings-trend">▲ 0% saved</div>
           <div class="balance-card-bg-icon">◉</div>
         </div>
       </div>
@@ -335,6 +422,46 @@
         <button class="btn-primary" onclick="openAccountModal()">+ Add Account</button>
       </div>
 
+      <!-- Bank Accounts Overview -->
+      <div class="accounts-overview glass-card" id="accounts-overview">
+        <div class="accounts-overview-top">
+          <div class="overview-balance-block">
+            <span class="accounts-overview-label">Total Account Balance</span>
+            <div class="accounts-overview-balance" id="accounts-total-balance">₹0.00</div>
+            <span class="accounts-overview-sub">Combined liquid balance across all accounts</span>
+          </div>
+          <div class="overview-cta-wrap">
+            <button class="btn-primary btn-add-account-main" onclick="openAccountModal()">
+              <span class="btn-icon-plus">+</span> Add Account
+            </button>
+          </div>
+        </div>
+
+        <div class="accounts-overview-metrics">
+          <div class="overview-metric-item">
+            <div class="metric-icon-wrap icon-total">🏦</div>
+            <div class="metric-text-wrap">
+              <span class="metric-num" id="accounts-count-display">0</span>
+              <span class="metric-label">Total Accounts</span>
+            </div>
+          </div>
+          <div class="overview-metric-item">
+            <div class="metric-icon-wrap icon-connected">🔗</div>
+            <div class="metric-text-wrap">
+              <span class="metric-num" id="accounts-connected-count">0</span>
+              <span class="metric-label">Connected Accounts</span>
+            </div>
+          </div>
+          <div class="overview-metric-item">
+            <div class="metric-icon-wrap icon-manual">✍️</div>
+            <div class="metric-text-wrap">
+              <span class="metric-num" id="accounts-manual-count">0</span>
+              <span class="metric-label">Manually Added</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div id="accounts-grid" class="accounts-grid"></div>
 
       <div id="no-accounts-empty" class="empty-state hidden">
@@ -376,7 +503,7 @@
           <option value="income">Income</option>
           <option value="expense">Expense</option>
         </select>
-        <select id="txn-sort" class="filter-select" onchange="renderTransactions()">
+        <select id="txn-sort" class="filter-select" onchange="onTxnSortChange()">
           <option value="date-desc">Newest First</option>
           <option value="date-asc">Oldest First</option>
           <option value="amount-desc">Highest Amount</option>
@@ -565,9 +692,17 @@
           <div class="data-action-row danger-row">
             <div>
               <div class="settings-row-label" style="color:var(--neon-red)">Reset All Data</div>
-              <div class="settings-row-sub">Permanently delete everything</div>
+              <div class="settings-row-sub">Permanently delete current vault transactions, accounts, and cards</div>
             </div>
             <button class="btn-danger" onclick="confirmResetAll()">🗑 Reset</button>
+          </div>
+
+          <div class="data-action-row danger-row" style="margin-top:14px; border-top:1px solid rgba(255,255,255,0.06); padding-top:14px;">
+            <div>
+              <div class="settings-row-label" style="color:var(--neon-red)">Delete Account</div>
+              <div class="settings-row-sub" id="settings-account-type-sub">Permanently delete your user credentials and all your personal financial data</div>
+            </div>
+            <button class="btn-danger" id="delete-account-btn" onclick="confirmDeleteAccount()">✕ Delete Account</button>
           </div>
         </div>
 
@@ -664,7 +799,10 @@
           <span class="card-logo-brand">⬡ VaultX</span>
           <span id="prev-type-badge" class="card-type-badge">DEBIT</span>
         </div>
-        <div class="card-chip-icon">▣</div>
+        <div class="card-chip-row">
+          <div class="card-chip-icon">▣</div>
+          <div id="prev-linked-account-badge" class="card-preview-linked-pill">Linked: Select Account</div>
+        </div>
         <div class="card-number-display" id="prev-number">•••• •••• •••• ••••</div>
         <div class="card-bottom-row">
           <div class="card-holder-col">
@@ -686,9 +824,9 @@
     <div class="form-row">
       <div class="form-group">
         <label>Card Type</label>
-        <select id="card-type" class="form-input" onchange="updateCardPreview()">
-          <option value="debit">Debit</option>
-          <option value="credit">Credit</option>
+        <select id="card-type" class="form-input" onchange="onCardTypeChange()">
+          <option value="debit">Debit Card</option>
+          <option value="credit">Credit Card</option>
         </select>
       </div>
       <div class="form-group">
@@ -732,15 +870,65 @@
         </select>
       </div>
     </div>
+
+    <!-- Credit Limit (Credit Cards only) -->
+    <div class="form-group hidden" id="card-credit-limit-group">
+      <label>Credit Limit (₹)</label>
+      <input type="number" id="card-credit-limit" class="form-input" placeholder="100000" min="1000" step="1000" value="100000" oninput="updateCardPreview()" />
+      <span class="field-hint">Maximum available spending limit for this credit card.</span>
+    </div>
+
+    <!-- Linked Bank Account / Payment Account -->
     <div class="form-group">
-      <label>Linked Account (optional)</label>
-      <select id="card-linked-account" class="form-input">
+      <label id="card-linked-account-label">Linked Bank Account</label>
+      <select id="card-linked-account" class="form-input" onchange="updateCardPreview()">
         <option value="">— None —</option>
       </select>
+      <span class="field-hint" id="card-linked-account-hint">Debited directly from this account for purchases.</span>
     </div>
     <div class="modal-actions">
       <button class="btn-ghost" onclick="closeModal('card-modal')">Cancel</button>
       <button class="btn-primary" onclick="saveCard()">Save Card</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PAY CREDIT CARD BILL MODAL ===================== -->
+<div id="pay-bill-modal" class="modal-overlay hidden">
+  <div class="modal-glass pay-bill-glass">
+    <div class="modal-header">
+      <div>
+        <h3 id="pay-bill-title">Pay Credit Card Bill</h3>
+        <p class="modal-sub">Settle outstanding credit card balance from your bank account</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('pay-bill-modal')">✕</button>
+    </div>
+
+    <input type="hidden" id="pay-bill-card-id" />
+
+    <div class="bill-pay-card-summary" id="bill-pay-card-summary">
+      <!-- Populated by JS -->
+    </div>
+
+    <div class="form-group">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <label style="margin:0;">Payment Amount (₹)</label>
+        <button type="button" class="btn-chip-action" onclick="setPayBillFullAmount()">Pay Full Balance</button>
+      </div>
+      <input type="number" id="pay-bill-amount" class="form-input" placeholder="0.00" min="1" step="0.01" />
+    </div>
+
+    <div class="form-group">
+      <label>Pay From Bank Account</label>
+      <select id="pay-bill-account" class="form-input">
+        <!-- Populated by JS -->
+      </select>
+      <span class="field-hint">Payment will be deducted from this bank account and applied to your credit card debt.</span>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeModal('pay-bill-modal')">Cancel</button>
+      <button class="btn-primary" onclick="submitCreditCardBillPayment()">Confirm Payment</button>
     </div>
   </div>
 </div>
@@ -752,43 +940,219 @@
       <h3 id="account-modal-title">Add Bank Account</h3>
       <button class="modal-close" onclick="closeModal('account-modal')">✕</button>
     </div>
-    <input type="hidden" id="account-edit-id" />
-    <div class="form-group">
-      <label>Bank Name</label>
-      <input type="text" id="account-bank" class="form-input" placeholder="e.g. Chase, HDFC, Revolut" />
+
+    <!-- Add Account Mode Chooser (Option A: Add Manually, Option B: Connect Bank) -->
+    <div id="account-mode-chooser" class="account-mode-chooser">
+      <div class="account-mode-card mode-manual active" id="mode-opt-manual" onclick="selectAddAccountMode('manual')">
+        <div class="mode-card-header">
+          <span class="mode-card-icon">✍️</span>
+          <span class="mode-card-title">Add Manually</span>
+        </div>
+        <p class="mode-card-sub">Enter your bank name, account number, type, and balance manually.</p>
+        <span class="mode-badge-tag">Self-Managed Form</span>
+      </div>
+      <div class="account-mode-card mode-connect" id="mode-opt-connect" onclick="startBankConnectFlow()">
+        <div class="mode-card-header">
+          <span class="mode-card-icon">🔗</span>
+          <span class="mode-card-title">Connect Bank</span>
+          <span class="badge-simulated">SIMULATED</span>
+        </div>
+        <p class="mode-card-sub">Securely connect your bank to view account information in one place.</p>
+        <button type="button" class="btn-connect-launch" onclick="event.stopPropagation(); startBankConnectFlow()">Connect Bank →</button>
+      </div>
     </div>
-    <div class="form-row">
+
+    <input type="hidden" id="account-edit-id" />
+    <div id="manual-account-fields">
       <div class="form-group">
-        <label>Account Number (last 4)</label>
-        <input type="text" id="account-number" class="form-input" placeholder="4521" maxlength="4" />
+        <label>Bank Name</label>
+        <input type="text" id="account-bank" class="form-input" placeholder="e.g. Chase, HDFC, Revolut" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Account Number (Last 4)</label>
+          <input type="text" id="account-number" class="form-input" placeholder="4521" maxlength="4" />
+        </div>
+        <div class="form-group">
+          <label>Account Type</label>
+          <select id="account-type" class="form-input">
+            <option value="savings">Savings</option>
+            <option value="checking">Checking / Current</option>
+            <option value="salary">Salary</option>
+            <option value="joint">Joint</option>
+          </select>
+        </div>
       </div>
       <div class="form-group">
-        <label>Account Type</label>
-        <select id="account-type" class="form-input">
-          <option value="savings">Savings</option>
-          <option value="checking">Checking / Current</option>
-          <option value="salary">Salary</option>
-          <option value="joint">Joint</option>
+        <label>Current Balance (₹)</label>
+        <input type="number" id="account-balance" class="form-input" placeholder="0.00" />
+      </div>
+      <div class="form-group">
+        <label>Account Color</label>
+        <select id="account-color" class="form-input">
+          <option value="purple">Purple</option>
+          <option value="blue">Blue</option>
+          <option value="green">Green</option>
+          <option value="red">Red</option>
+          <option value="gold">Gold</option>
         </select>
       </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" onclick="closeModal('account-modal')">Cancel</button>
+        <button class="btn-primary" onclick="saveAccount()">Save Account</button>
+      </div>
     </div>
-    <div class="form-group">
-      <label>Current Balance (₹)</label>
-      <input type="number" id="account-balance" class="form-input" placeholder="0.00" />
+  </div>
+</div>
+
+<!-- ===================== SIMULATED BANK CONNECTION MODAL ===================== -->
+<div id="bank-connect-modal" class="modal-overlay hidden">
+  <div class="modal-glass bank-connect-glass">
+    <!-- Stepper Navigation -->
+    <div class="connect-stepper">
+      <div class="step-pill active" id="step-pill-1"><span class="step-num">1</span> Bank</div>
+      <div class="step-divider"></div>
+      <div class="step-pill" id="step-pill-2"><span class="step-num">2</span> Permission</div>
+      <div class="step-divider"></div>
+      <div class="step-pill" id="step-pill-3"><span class="step-num">3</span> Authenticate</div>
+      <div class="step-divider"></div>
+      <div class="step-pill" id="step-pill-4"><span class="step-num">4</span> Success</div>
     </div>
-    <div class="form-group">
-      <label>Account Color</label>
-      <select id="account-color" class="form-input">
-        <option value="purple">Purple</option>
-        <option value="blue">Blue</option>
-        <option value="green">Green</option>
-        <option value="red">Red</option>
-        <option value="gold">Gold</option>
-      </select>
+
+    <!-- STEP 1: Select Your Bank -->
+    <div id="connect-step-1" class="connect-step-view">
+      <div class="modal-header">
+        <div>
+          <h3>Select Your Bank</h3>
+          <p class="modal-sub">Choose a demonstration financial institution to connect</p>
+        </div>
+        <button class="modal-close" onclick="closeConnectModal()">✕</button>
+      </div>
+
+      <div class="bank-search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="bank-search-input" class="form-input search-input" placeholder="Search institutions (e.g. HDFC, ICICI, SBI)..." oninput="filterBankList(this.value)" />
+      </div>
+
+      <div class="bank-institution-grid" id="bank-institution-grid">
+        <!-- Rendered dynamically by accounts.js -->
+      </div>
+
+      <div class="modal-actions" style="margin-top:20px;">
+        <button class="btn-ghost" onclick="closeConnectModal()">Cancel</button>
+      </div>
     </div>
-    <div class="modal-actions">
-      <button class="btn-ghost" onclick="closeModal('account-modal')">Cancel</button>
-      <button class="btn-primary" onclick="saveAccount()">Save Account</button>
+
+    <!-- STEP 2: Connection Permission (Consent Screen) -->
+    <div id="connect-step-2" class="connect-step-view hidden">
+      <div class="modal-header">
+        <div class="header-with-back">
+          <button class="btn-step-back" onclick="goBackConnectStep(1)">←</button>
+          <div>
+            <h3 id="consent-bank-title">Connection Permission</h3>
+            <p class="modal-sub">Review authorization details before connecting</p>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeConnectModal()">✕</button>
+      </div>
+
+      <div class="connect-selected-bank-banner" id="consent-bank-banner">
+        <!-- Selected bank banner -->
+      </div>
+
+      <div class="simulation-notice-card">
+        <div class="notice-icon">ℹ️</div>
+        <div class="notice-text">
+          <strong>Simulated Connection Experience</strong>
+          <p>This is a frontend demonstration. No real banking network, credentials, or financial APIs are contacted.</p>
+        </div>
+      </div>
+
+      <div class="consent-scope-card">
+        <div class="scope-title">This simulated connection will display:</div>
+        <ul class="scope-list">
+          <li><span class="scope-check">✓</span> Account holder name</li>
+          <li><span class="scope-check">✓</span> Account type (Savings or Checking)</li>
+          <li><span class="scope-check">✓</span> Masked account number (•••• XXXX)</li>
+          <li><span class="scope-check">✓</span> Current account balance</li>
+          <li><span class="scope-check">✓</span> Recent transaction information</li>
+        </ul>
+      </div>
+
+      <label class="consent-checkbox-label">
+        <input type="checkbox" id="connect-consent-checkbox" onchange="toggleConnectConsent(this)" />
+        <span>I authorize VaultX to retrieve simulated account details for this demonstration.</span>
+      </label>
+
+      <div class="modal-actions">
+        <button class="btn-ghost" onclick="goBackConnectStep(1)">Back</button>
+        <button class="btn-primary" id="btn-consent-continue" disabled onclick="proceedToAuthStep()">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Authentication Simulation -->
+    <div id="connect-step-3" class="connect-step-view hidden">
+      <div class="modal-header">
+        <div class="header-with-back">
+          <button class="btn-step-back" onclick="goBackConnectStep(2)">←</button>
+          <div>
+            <h3 id="auth-bank-title">Bank Authentication</h3>
+            <p class="modal-sub">Simulated NetBanking demo login</p>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeConnectModal()">✕</button>
+      </div>
+
+      <div class="auth-bank-brand-header" id="auth-bank-brand">
+        <!-- Bank branding badge -->
+      </div>
+
+      <div class="demo-credentials-banner">
+        <span class="demo-cred-badge">DEMO SIMULATION</span>
+        <p>Demonstration credentials only. Never enter real passwords, PINs, or OTPs.</p>
+      </div>
+
+      <div class="form-group">
+        <label>Account Holder Name</label>
+        <input type="text" id="demo-auth-holder" class="form-input" placeholder="Account Holder Name" />
+      </div>
+
+      <div class="form-group">
+        <label>Demo Customer ID</label>
+        <input type="text" id="demo-auth-custid" class="form-input" value="DEMO-CUST-8842" readonly />
+      </div>
+
+      <div class="form-group">
+        <label>Demo Password</label>
+        <input type="password" id="demo-auth-pwd" class="form-input" value="demo123456" readonly />
+        <span class="field-hint">Sample demo credentials for demonstration flow</span>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-ghost" onclick="goBackConnectStep(2)">Back</button>
+        <button class="btn-primary" id="btn-auth-submit" onclick="executeDemoAuth()">
+          <span id="auth-btn-text">Authenticate & Connect</span>
+          <span id="auth-btn-spinner" class="spinner-sm hidden"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Connection Success -->
+    <div id="connect-step-4" class="connect-step-view hidden">
+      <div class="success-screen-wrap">
+        <div class="success-animated-icon">✓</div>
+        <h3>Bank Connected Successfully</h3>
+        <p class="success-sub">Your demonstration account has been linked to your VaultX accounts.</p>
+
+        <!-- Account Card Preview -->
+        <div class="success-account-preview" id="success-account-preview">
+          <!-- Preview details populated by JS -->
+        </div>
+
+        <div class="success-actions">
+          <button class="btn-primary btn-view-account" onclick="finishBankConnect()">View Account →</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -839,11 +1203,18 @@
         </select>
       </div>
       <div class="form-group">
-        <label>Account</label>
-        <select id="txn-account" class="form-input">
+        <label>Bank Account</label>
+        <select id="txn-account" class="form-input" onchange="onTxnAccountSelect()">
           <option value="">— None —</option>
         </select>
       </div>
+    </div>
+    <div class="form-group" id="txn-card-group">
+      <label>Paid Via Card (Optional)</label>
+      <select id="txn-card" class="form-input" onchange="onTxnCardSelect()">
+        <option value="">— Direct Account / None —</option>
+      </select>
+      <span class="field-hint" id="txn-card-hint">Select a card to track debit or credit card spending.</span>
     </div>
     <div class="form-group">
       <label>Note (optional)</label>
@@ -852,6 +1223,100 @@
     <div class="modal-actions">
       <button class="btn-ghost" onclick="closeModal('txn-modal')">Cancel</button>
       <button class="btn-primary" onclick="saveTransaction()">Save Transaction</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== AUTHENTICATION MODAL ===== -->
+<div id="auth-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="auth-tab-login">
+  <div class="modal-glass auth-modal-glass">
+    <div class="modal-header auth-modal-header">
+      <div class="auth-tabs" role="tablist">
+        <button type="button" class="auth-tab-btn active" id="auth-tab-login" onclick="switchAuthTab('login')" role="tab" aria-selected="true">Sign In</button>
+        <button type="button" class="auth-tab-btn" id="auth-tab-register" onclick="switchAuthTab('register')" role="tab" aria-selected="false">Create Account</button>
+      </div>
+      <button type="button" class="modal-close" onclick="closeModal('auth-modal')" aria-label="Close modal">✕</button>
+    </div>
+
+    <!-- Sign In Panel -->
+    <div id="auth-panel-login" class="auth-panel">
+      <div class="auth-heading">
+        <h3>Welcome back</h3>
+        <p class="auth-sub">Enter your credentials to access your personal financial dashboard.</p>
+      </div>
+      <form id="form-login" onsubmit="handleLoginSubmit(event)" novalidate>
+        <div class="form-group">
+          <label for="login-email">Email Address <span class="req">*</span></label>
+          <input type="email" id="login-email" class="form-input" placeholder="name@example.com" autocomplete="email" required />
+          <span class="field-error-text" id="login-email-error"></span>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password <span class="req">*</span></label>
+          <div class="password-wrap">
+            <input type="password" id="login-password" class="form-input" placeholder="••••••••" autocomplete="current-password" required />
+            <button type="button" class="pwd-toggle-btn" onclick="togglePasswordVisibility('login-password', this)" aria-label="Toggle password visibility">👁</button>
+          </div>
+          <span class="field-error-text" id="login-password-error"></span>
+        </div>
+        <div class="auth-row-remember">
+          <label class="remember-label">
+            <input type="checkbox" id="login-remember" checked />
+            <span>Remember me on this browser</span>
+          </label>
+        </div>
+        <div id="login-general-error" class="auth-error-banner hidden"></div>
+        <button type="submit" class="btn-primary full-width auth-submit-btn" id="login-submit-btn">
+          <span>Sign In</span>
+          <span class="btn-arrow">→</span>
+        </button>
+        <div class="auth-switch-text">
+          Don't have an account? <a href="javascript:void(0)" onclick="switchAuthTab('register')">Create one now</a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Registration Panel -->
+    <div id="auth-panel-register" class="auth-panel hidden">
+      <div class="auth-heading">
+        <h3>Create an Account</h3>
+        <p class="auth-sub">Set up independent multi-user financial tracking on this browser.</p>
+      </div>
+      <form id="form-register" onsubmit="handleRegisterSubmit(event)" novalidate>
+        <div class="form-group">
+          <label for="register-name">Full Name <span class="req">*</span></label>
+          <input type="text" id="register-name" class="form-input" placeholder="e.g. Maya Patel" autocomplete="name" required />
+          <span class="field-error-text" id="register-name-error"></span>
+        </div>
+        <div class="form-group">
+          <label for="register-email">Email Address <span class="req">*</span></label>
+          <input type="email" id="register-email" class="form-input" placeholder="name@example.com" autocomplete="email" required />
+          <span class="field-error-text" id="register-email-error"></span>
+        </div>
+        <div class="form-group">
+          <label for="register-password">Password <span class="req">*</span></label>
+          <div class="password-wrap">
+            <input type="password" id="register-password" class="form-input" placeholder="Minimum 6 characters" autocomplete="new-password" required />
+            <button type="button" class="pwd-toggle-btn" onclick="togglePasswordVisibility('register-password', this)" aria-label="Toggle password visibility">👁</button>
+          </div>
+          <span class="field-error-text" id="register-password-error"></span>
+        </div>
+        <div class="form-group">
+          <label for="register-confirm">Confirm Password <span class="req">*</span></label>
+          <div class="password-wrap">
+            <input type="password" id="register-confirm" class="form-input" placeholder="Re-enter password" autocomplete="new-password" required />
+            <button type="button" class="pwd-toggle-btn" onclick="togglePasswordVisibility('register-confirm', this)" aria-label="Toggle password visibility">👁</button>
+          </div>
+          <span class="field-error-text" id="register-confirm-error"></span>
+        </div>
+        <div id="register-general-error" class="auth-error-banner hidden"></div>
+        <button type="submit" class="btn-primary full-width auth-submit-btn" id="register-submit-btn">
+          <span>Create Account</span>
+          <span class="btn-arrow">→</span>
+        </button>
+        <div class="auth-switch-text">
+          Already have an account? <a href="javascript:void(0)" onclick="switchAuthTab('login')">Sign in here</a>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -872,6 +1337,25 @@
 <!-- Toast Container -->
 <div id="toast-container" class="toast-container"></div>
 
-<script src="script.js"></script>
+<!-- Core Scripts -->
+<script src="js/core/db.js"></script>
+<script src="js/core/state.js"></script>
+<script src="js/core/utils.js"></script>
+<script src="js/core/ui.js"></script>
+<script src="js/core/charts.js"></script>
+
+<!-- Feature Modules -->
+<script src="js/modules/auth.js"></script>
+<script src="js/modules/navigation.js"></script>
+<script src="js/modules/dashboard.js"></script>
+<script src="js/modules/cards.js"></script>
+<script src="js/modules/accounts.js"></script>
+<script src="js/modules/transactions.js"></script>
+<script src="js/modules/insights.js"></script>
+<script src="js/modules/budget.js"></script>
+<script src="js/modules/settings.js"></script>
+
+<!-- Application Bootstrapper -->
+<script src="js/app.js"></script>
 </body>
 </html>

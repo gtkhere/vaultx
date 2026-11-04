@@ -90,27 +90,9 @@ function uid() { return '_' + Math.random().toString(36).substr(2, 9); }
 // SECTION 3: AUTH
 // =====================================================
 
-function showLogin() {
-  document.getElementById('landing-page').classList.add('hidden');
-  document.getElementById('login-modal').classList.remove('hidden');
-}
-
-function doLogin() {
-  const email = document.getElementById('login-email').value;
-  const pass  = document.getElementById('login-password').value;
-
-  // Demo auth — any email/password works
-  if (!email && !pass) {
-    showToast('⚡ Logging in with demo credentials...', 'info');
-  }
-
+function demoLogin() {
+  showToast('⚡ Opening demo workspace…', 'info');
   DB.save('loggedin', true);
-  // Clear old seed so updated INR demo data reloads fresh
-  DB.save('seeded', false);
-  localStorage.removeItem('vaultx_cards');
-  localStorage.removeItem('vaultx_accounts');
-  localStorage.removeItem('vaultx_transactions');
-  document.getElementById('login-modal').classList.add('hidden');
   document.getElementById('landing-page').classList.add('hidden');
 
   seedDemoData();
@@ -206,9 +188,16 @@ function updateBalanceSummary() {
   const expense  = thisMonth.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
   const savings  = income > 0 ? Math.round((income - expense) / income * 100) : 0;
 
-  animateNumber('total-balance', totalBalance, true);
-  animateNumber('total-income',  income,  true);
-  animateNumber('total-expense', expense, true);
+  if (!prefs.balances) {
+    ['total-balance', 'total-income', 'total-expense'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '••••••';
+    });
+  } else {
+    animateNumber('total-balance', totalBalance, true);
+    animateNumber('total-income',  income,  true);
+    animateNumber('total-expense', expense, true);
+  }
   document.getElementById('savings-rate').textContent = savings + '%';
 }
 
@@ -265,7 +254,7 @@ function renderDashboardAccounts() {
         <div style="font-size:.87rem;font-weight:600;">${esc(a.bank)}</div>
         <div style="font-size:.74rem;color:var(--text-muted)">•••• ${a.number}</div>
       </div>
-      <div style="font-weight:700;font-size:.9rem;">₹${parseFloat(a.balance).toLocaleString('en-IN')}</div>
+      <div style="font-weight:700;font-size:.9rem;">${prefs.balances ? '₹' + parseFloat(a.balance).toLocaleString('en-IN') : '••••••'}</div>
     </div>
   `).join('');
 }
@@ -789,7 +778,7 @@ function renderAccounts() {
         <span class="account-type-pill">${a.type}</span>
       </div>
       <div class="account-balance-label">Available Balance</div>
-      <div class="account-balance">₹${parseFloat(a.balance).toLocaleString('en-IN', {minimumFractionDigits:2})}</div>
+      <div class="account-balance">${prefs.balances ? '₹' + parseFloat(a.balance).toLocaleString('en-IN', {minimumFractionDigits:2}) : '••••••'}</div>
       <div style="display:flex;gap:8px;">
         <button class="btn-icon" onclick="openAccountModal('${a.id}')" title="Edit">✎</button>
         <button class="btn-icon" onclick="confirmDelete('account','${a.id}')" title="Delete">🗑</button>
@@ -843,6 +832,71 @@ function setTxnType(type) {
   expBtn.className = 'type-btn' + (type === 'expense' ? ' active-expense' : '');
 }
 
+// =====================================================
+// BALANCE SYNC HELPERS
+// =====================================================
+
+/**
+ * Calculate the net financial impact of a transaction on an account balance.
+ * Income increases balance (+amount), Expense decreases balance (-amount).
+ */
+function getTxnNetImpact(txn) {
+  if (!txn || !txn.amount) return 0;
+  const amt = parseFloat(txn.amount) || 0;
+  if (txn.type === 'income') return amt;
+  if (txn.type === 'expense') return -amt;
+  return 0;
+}
+
+/**
+ * Adjust a specific bank account's balance by a delta value.
+ * Rounds to 2 decimal places to prevent floating-point inaccuracies.
+ */
+function adjustAccountBalance(accountId, delta) {
+  if (!accountId || !delta) return false;
+  const acc = accounts.find(a => a.id === accountId);
+  if (!acc) return false;
+  const current = parseFloat(acc.balance) || 0;
+  acc.balance = Math.round((current + delta) * 100) / 100;
+  return true;
+}
+
+/**
+ * Synchronize bank account balances when a transaction is edited.
+ * Handles changes in amount, transaction type (income/expense), and associated account.
+ */
+function syncBalancesOnTxnEdit(oldTxn, newTxn) {
+  let changed = false;
+  const oldImpact = getTxnNetImpact(oldTxn);
+  const newImpact = getTxnNetImpact(newTxn);
+
+  if (oldTxn.account === newTxn.account) {
+    if (newTxn.account) {
+      const delta = newImpact - oldImpact;
+      if (delta !== 0) {
+        changed = adjustAccountBalance(newTxn.account, delta);
+      }
+    }
+  } else {
+    // Account changed: reverse old transaction impact from the old account
+    if (oldTxn.account) {
+      if (adjustAccountBalance(oldTxn.account, -oldImpact)) {
+        changed = true;
+      }
+    }
+    // Apply new transaction impact to the new account
+    if (newTxn.account) {
+      if (adjustAccountBalance(newTxn.account, newImpact)) {
+        changed = true;
+      }
+    }
+  }
+
+  if (changed) {
+    DB.save('accounts', accounts);
+  }
+}
+
 function saveTransaction() {
   const name     = document.getElementById('txn-name').value.trim();
   const amount   = parseFloat(document.getElementById('txn-amount').value);
@@ -857,17 +911,32 @@ function saveTransaction() {
 
   if (txnEditId) {
     const idx = transactions.findIndex(t => t.id === txnEditId);
-    transactions[idx] = { ...transactions[idx], type: txnType, name, amount, date, category, note, account };
-    showToast('✅ Transaction updated', 'success');
+    if (idx !== -1) {
+      const oldTxn = transactions[idx];
+      const updatedTxn = { ...oldTxn, type: txnType, name, amount, date, category, note, account };
+      syncBalancesOnTxnEdit(oldTxn, updatedTxn);
+      transactions[idx] = updatedTxn;
+      showToast('✅ Transaction updated', 'success');
+    }
   } else {
-    transactions.push({ id: uid(), type: txnType, name, amount, date, category, note, account });
+    const newTxn = { id: uid(), type: txnType, name, amount, date, category, note, account };
+    if (newTxn.account) {
+      const impact = getTxnNetImpact(newTxn);
+      if (impact !== 0) {
+        adjustAccountBalance(newTxn.account, impact);
+        DB.save('accounts', accounts);
+      }
+    }
+    transactions.push(newTxn);
     showToast('✅ Transaction added', 'success');
   }
 
   DB.save('transactions', transactions);
   closeModal('txn-modal');
   renderTransactions();
+  renderAccounts();
   renderDashboard();
+  if (activeSection === 'budget') renderBudget();
 }
 
 function renderTransactions() {
@@ -966,7 +1035,22 @@ function confirmDelete(type, id) {
   btn.onclick = () => {
     if (type === 'card')    { cards        = cards.filter(c => c.id !== id); DB.save('cards', cards); renderCards(); renderDashboardCards(); }
     if (type === 'account') { accounts     = accounts.filter(a => a.id !== id); DB.save('accounts', accounts); renderAccounts(); renderDashboard(); }
-    if (type === 'txn')     { transactions = transactions.filter(t => t.id !== id); DB.save('transactions', transactions); renderTransactions(); renderDashboard(); }
+    if (type === 'txn') {
+      const targetTxn = transactions.find(t => t.id === id);
+      if (targetTxn && targetTxn.account) {
+        const impact = getTxnNetImpact(targetTxn);
+        if (impact !== 0) {
+          adjustAccountBalance(targetTxn.account, -impact);
+          DB.save('accounts', accounts);
+        }
+      }
+      transactions = transactions.filter(t => t.id !== id);
+      DB.save('transactions', transactions);
+      renderTransactions();
+      renderAccounts();
+      renderDashboard();
+      if (activeSection === 'budget') renderBudget();
+    }
 
     closeModal('confirm-modal');
     showToast('🗑 Deleted successfully', 'info');
@@ -1033,7 +1117,6 @@ function showToast(msg, type = 'info') {
 // =====================================================
 
 function globalSearch(val) {
-  if (!val.trim()) return;
   // Switch to transactions and apply search
   showSection('transactions');
   document.getElementById('txn-search').value = val;
@@ -1285,7 +1368,22 @@ function confirmDelete(type, id) {
   btn.onclick = () => {
     if (type === 'card')    { cards        = cards.filter(c => c.id !== id);        DB.save('cards', cards);        renderCards();        renderDashboardCards(); }
     if (type === 'account') { accounts     = accounts.filter(a => a.id !== id);     DB.save('accounts', accounts);  renderAccounts();     renderDashboard(); }
-    if (type === 'txn')     { transactions = transactions.filter(t => t.id !== id); DB.save('transactions', transactions); renderTransactions(); renderDashboard(); }
+    if (type === 'txn') {
+      const targetTxn = transactions.find(t => t.id === id);
+      if (targetTxn && targetTxn.account) {
+        const impact = getTxnNetImpact(targetTxn);
+        if (impact !== 0) {
+          adjustAccountBalance(targetTxn.account, -impact);
+          DB.save('accounts', accounts);
+        }
+      }
+      transactions = transactions.filter(t => t.id !== id);
+      DB.save('transactions', transactions);
+      renderTransactions();
+      renderAccounts();
+      renderDashboard();
+      if (activeSection === 'budget') renderBudget();
+    }
     if (type === 'budget')  { budgets      = budgets.filter(b => b.id !== id);      DB.save('budgets', budgets);    renderBudget(); }
 
     closeModal('confirm-modal');
@@ -1358,6 +1456,9 @@ function savePref(key, val) {
 
 function applyPrefs() {
   document.body.classList.toggle('compact', !!prefs.compact);
+  renderDashboardAccounts();
+  renderAccounts();
+  if (activeSection === 'dashboard') updateBalanceSummary();
 }
 
 // =====================================================
@@ -1368,7 +1469,7 @@ function exportCSV() {
   if (!transactions.length) { showToast('⚠️ No transactions to export', 'error'); return; }
 
   const headers = ['Date', 'Description', 'Category', 'Type', 'Amount (₹)', 'Account', 'Note'];
-  const rows = transactions
+  const rows = [...transactions]
     .sort((a,b) => new Date(b.date) - new Date(a.date))
     .map(t => {
       const acc = accounts.find(a => a.id === t.account);

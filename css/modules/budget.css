@@ -1,0 +1,107 @@
+/* =====================================================
+   VaultX — Budget Planner Module Styles
+   ===================================================== */
+
+.budget-overview-card { margin-bottom: 24px; }
+
+.budget-master-bar-wrap {
+  height: 8px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 100px;
+  overflow: hidden;
+  margin: 12px 0 20px;
+}
+
+.budget-master-bar {
+  height: 8px;
+  border-radius: 100px;
+  background: linear-gradient(90deg, var(--accent), var(--neon-blue));
+  width: 0%;
+  transition: width 1s cubic-bezier(0.4,0,0.2,1);
+}
+.budget-master-bar.warning { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+.budget-master-bar.danger  { background: linear-gradient(90deg, #ef4444, #dc2626); }
+
+.budget-overview-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.budget-overview-stat { display: flex; flex-direction: column; gap: 4px; }
+.bos-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); }
+.bos-val   { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; }
+.bos-val.red   { color: var(--neon-red); }
+.bos-val.green { color: var(--neon-green); }
+
+.budget-pct-badge {
+  background: rgba(124,58,237,0.15);
+  border: 1px solid rgba(124,58,237,0.25);
+  border-radius: 100px;
+  padding: 4px 12px;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--neon);
+}
+
+.budget-list { display: flex; flex-direction: column; gap: 14px; }
+
+.budget-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  transition: var(--transition);
+}
+.budget-item:hover { background: var(--bg-card-hover); border-color: rgba(255,255,255,0.12); }
+
+.budget-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.budget-item-left { display: flex; align-items: center; gap: 12px; }
+.budget-cat-icon  { font-size: 1.4rem; }
+.budget-cat-name  { font-weight: 700; font-size: .95rem; }
+.budget-cat-sub   { font-size: .76rem; color: var(--text-muted); margin-top: 2px; }
+
+.budget-item-right { text-align: right; }
+.budget-amounts { font-family: 'Syne', sans-serif; font-size: .95rem; font-weight: 700; }
+.budget-amounts .spent { color: var(--neon-red); }
+.budget-amounts .limit { color: var(--text-muted); font-size: .8rem; font-weight: 400; }
+
+.budget-alert-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: .7rem;
+  padding: 2px 8px;
+  border-radius: 100px;
+  margin-top: 4px;
+  font-weight: 600;
+}
+.budget-alert-chip.ok      { background: rgba(52,211,153,.12);  color: var(--neon-green); }
+.budget-alert-chip.warning { background: rgba(251,191,36,.12);  color: var(--neon-gold); }
+.budget-alert-chip.danger  { background: rgba(248,113,113,.12); color: var(--neon-red); }
+
+.budget-bar-wrap {
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 100px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.budget-bar {
+  height: 6px;
+  border-radius: 100px;
+  transition: width 1s cubic-bezier(0.4,0,0.2,1);
+}
+.budget-bar.ok      { background: linear-gradient(90deg, var(--neon-green), #059669); }
+.budget-bar.warning { background: linear-gradient(90deg, var(--neon-gold), #d97706); }
+.budget-bar.danger  { background: linear-gradient(90deg, var(--neon-red), #dc2626); }
+
+.budget-item-footer { display: flex; justify-content: space-between; align-items: center; }
+.budget-remaining-text { font-size: .8rem; color: var(--text-secondary); }

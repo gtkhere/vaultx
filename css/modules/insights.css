@@ -1,0 +1,24 @@
+/* =====================================================
+   VaultX — Insights Module Styles
+   ===================================================== */
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 0;
+}
+
+canvas { max-width: 100%; }
+
+.category-breakdown { display: flex; flex-direction: column; gap: 12px; }
+
+.cat-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.cat-row-label { font-size: 0.85rem; font-weight: 500; flex: 1; }
+.cat-row-bar-wrap { flex: 2; background: rgba(255,255,255,0.06); border-radius: 100px; height: 6px; overflow: hidden; }
+.cat-row-bar { height: 6px; border-radius: 100px; transition: width 0.8s cubic-bezier(0.4,0,0.2,1); }
+.cat-row-amount { font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); min-width: 70px; text-align: right; }
